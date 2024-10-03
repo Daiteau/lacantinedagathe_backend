@@ -1,0 +1,14 @@
+# Ignorer les fichiers de log
+*.log
+
+# Ignorer le dossier node_modules
+node_modules/
+
+# Ignorer les fichiers d'environnement
+.env
+
+# Ignore les fichiers temporaires
+*.tmp
+
+# Ignore le dossier dist
+dist/
