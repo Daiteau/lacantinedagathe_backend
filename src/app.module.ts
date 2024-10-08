@@ -3,6 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'; // Pour gérer les variables d'environnement
 import { User } from './users/user.entity'; // Exemple d'entité
 import { UsersModule } from './users/users.module';
+import { RolesModule } from './roles/roles.module';
+import { FavoritesModule } from './favorites/favorites.module';
+import { ContentModule } from './contents/contents.module';
+import { RatingsModule } from './ratings/ratings.module';
 
 @Module({
   imports: [
@@ -20,6 +24,10 @@ import { UsersModule } from './users/users.module';
       synchronize: true, // Synchronise automatiquement les entités (ne pas utiliser en prod)
     }),
     UsersModule,
+    RolesModule,
+    FavoritesModule,
+    ContentModule,
+    RatingsModule,
     // ... autres modules
   ],
   controllers: [],
