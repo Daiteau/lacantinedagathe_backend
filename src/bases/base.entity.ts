@@ -1,11 +1,10 @@
 import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { IsDefined } from 'class-validator'
 
 export class BaseEntity { 
   @PrimaryGeneratedColumn()
+  @IsDefined()
   id: number;
-
-  @Column({unique: true})
-  uuid: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

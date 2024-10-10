@@ -1,12 +1,19 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config'; // Pour gérer les variables d'environnement
-import { User } from './users/user.entity'; // Exemple d'entité
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { ContentModule } from './contents/contents.module';
 import { RatingsModule } from './ratings/ratings.module';
+import { CommentsModule } from './comments/comments.module';
+import { CommentLikesModule } from './comment_likes/comment_likes.module';
+import { ContentLikesModule } from './content_likes/content_likes.module';
+import { RecipesModule } from './recipes/recipes.module';
+import { ContentPicturesModule } from './content_pictures/content_pictures.module';
+import { PicturesModule } from './pictures/pictures.module';
+import { ContentTagsModule } from './content_tags/content_tags.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -28,6 +35,14 @@ import { RatingsModule } from './ratings/ratings.module';
     FavoritesModule,
     ContentModule,
     RatingsModule,
+    CommentsModule,
+    CommentLikesModule,
+    ContentLikesModule,
+    RecipesModule,
+    ContentPicturesModule,
+    PicturesModule,
+    ContentTagsModule,
+    TagsModule,
     // ... autres modules
   ],
   controllers: [],
