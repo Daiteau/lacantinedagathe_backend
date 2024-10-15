@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config'; // Pour gérer les variables d'environnement
 import { UsersModule } from './users/users.module';
 import { RolesModule } from './roles/roles.module';
 import { FavoritesModule } from './favorites/favorites.module';
@@ -14,22 +14,29 @@ import { ContentPicturesModule } from './content_pictures/content_pictures.modul
 import { PicturesModule } from './pictures/pictures.module';
 import { ContentTagsModule } from './content_tags/content_tags.module';
 import { TagsModule } from './tags/tags.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Les variables d'environnement sont accessibles partout
+      isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost', // Hôte de la base de données
-      port: 3306,        // Port MySQL par défaut
-      username: 'root',  // Utilisateur MySQL
-      password: '', // Mot de passe MySQL
-      database: 'lacantinedagathe_db',      // Nom de la base de données
-      entities: [__dirname + '/**/*.entity{.ts,.js}'], // Chemin des entités
-      synchronize: true, // Synchronise automatiquement les entités (ne pas utiliser en prod)
+    // Utilisation de TypeOrmModule.forRootAsync pour injecter le ConfigService
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule], // Importer ConfigModule ici pour utiliser ConfigService
+      inject: [ConfigService], // Injecter ConfigService pour accéder aux variables d'environnement
+      useFactory: async (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get<string>('DB_HOST'), // Récupération de l'hôte depuis .env
+        port: configService.get<number>('DB_PORT'), // Récupération du port depuis .env
+        username: configService.get<string>('DB_USERNAME'), // Récupération du nom d'utilisateur depuis .env
+        password: configService.get<string>('DB_PASSWORD'), // Récupération du mot de passe depuis .env
+        database: configService.get<string>('DB_DATABASE'), // Récupération du nom de la base de données depuis .env
+        entities: [__dirname + '/**/*.entity{.ts,.js}'], // Chemin des entités
+        synchronize: true, // Synchronise automatiquement les entités (ne pas utiliser en production)
+      }),
     }),
+
     UsersModule,
     RolesModule,
     FavoritesModule,
@@ -43,10 +50,9 @@ import { TagsModule } from './tags/tags.module';
     PicturesModule,
     ContentTagsModule,
     TagsModule,
-    // ... autres modules
+    AuthModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [], // Les contrôleurs si tu en as
+  providers: [],   // Les providers si tu en as
 })
-
 export class AppModule {}

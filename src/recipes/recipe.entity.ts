@@ -7,22 +7,16 @@ import { difficultyEnum } from './recipe-difficulty.enum';
 export class Recipe extends BaseEntity {
 
     @Column()
-    content_id: number;
+    content_id: number;  
 
-    @Column()
-    title: string;
-
-    @Column() // En MINUTES
-    preparation_time: number;
-
-    @Column() // En MINUTES
-    cooking_time: number;
-
-    @Column({ type: 'enum', enum: difficultyEnum })
-    difficulty: difficultyEnum;
-
-    @Column() // Nombre de parts
-    serving: number;
+    @Column({ type: 'json', nullable: true })
+    recipe_data: { 
+        title: string, 
+        preparation_time: string,
+        cooking_time: number,
+        difficulty: difficultyEnum,
+        serving: number
+    };
 
     // Relations 
 
