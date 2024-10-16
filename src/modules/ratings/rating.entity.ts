@@ -14,7 +14,7 @@ export class Rating extends BaseEntity {
 
     // Relations
 
-    @ManyToOne(() => User, (user) => user.favorites, { onDelete: 'CASCADE' })
+    @ManyToOne(() => User, (user) => user.ratings, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'user_id' })
     user: User;
 

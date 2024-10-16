@@ -7,6 +7,7 @@ import { Content } from '../contents/content.entity';
 import { Comment } from '../comments/comment.entity';
 import { CommentLike } from '../comment_likes/comment_like.entity';
 import { ContentLike } from '../content_likes/content_like.entity';
+import { JwtBlackList } from '../jwt_black_list/jwt_black_list.entity';
 
 @Entity('user') 
 export class User extends BaseEntity {
@@ -54,4 +55,7 @@ export class User extends BaseEntity {
 
     @OneToMany(() => ContentLike, (content_likes) => content_likes.user)
     content_likes: ContentLike[];
+
+    @OneToMany(() => JwtBlackList, (jwtBlackList) => jwtBlackList.user)
+    blacklistedTokens: JwtBlackList[];
 }
