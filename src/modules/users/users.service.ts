@@ -48,4 +48,9 @@ export class UsersService {
     const user = await this.findOne(id);
     return user.role.label;
   }
+
+  async findFullOne(id: number): Promise<User>{
+    const user = await this.usersRepository.findOne({ where: { id }, relations: ['role', 'favorites', 'ratings', 'contents', 'comments', 'commentLikes', 'contentLikes', 'blacklistedTokens'] });
+    return user;
+  }
 }
