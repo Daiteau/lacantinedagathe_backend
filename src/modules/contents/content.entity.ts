@@ -5,7 +5,7 @@ import { Rating } from '../ratings/rating.entity';
 import { User } from '../users/user.entity';
 import { Comment } from '../comments/comment.entity';
 import { ContentLike } from '../content_likes/content_like.entity';
-import { Recipe } from 'src/recipes/recipe.entity';
+import { Recipe } from '../recipes/recipe.entity';
 import { ContentPicture } from '../content_pictures/content_picture.entity';
 import { ContentTag } from '../content_tags/content_tag.entity';
 

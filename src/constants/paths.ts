@@ -1,16 +1,16 @@
 export const Paths = {
     USERS: {
-      CREATE: '/users',
-      FIND_ALL: '/users',
-      FIND_ALL_ACTIVE: '/users/active',
-      FIND_ALL_DELETED: '/users/deleted',
-      FIND_ONE: (param: number | string) => `/users/${param}`,
-      UPDATE: (id: number | string) => `/users/${id}`,
-      DELETE: (id: number | string) => `/users/${id}/delete`,
+      CREATE: '',
+      FIND_ALL: '',
+      FIND_ALL_ACTIVE: '/active',
+      FIND_ALL_DELETED: '/deleted',
+      FIND_ONE: (param: number | string) => `/${param}`,
+      UPDATE: (id: number | string) => `/${id}`,
+      DELETE: (id: number | string) => `/delete/${id}`,
     },
     AUTH: {
-      LOGIN: '/auth/login',
-      LOGOUT: '/auth/logout',
-      SIGNUP: '/auth/signup',
+      LOGIN: '/login',
+      LOGOUT: '/logout',
+      SIGNUP: '/signup',
     },
   };

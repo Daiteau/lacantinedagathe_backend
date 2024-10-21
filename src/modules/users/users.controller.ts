@@ -8,16 +8,37 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
     // Endpoint pour créer un nouvel utilisateur
-    @Post(Paths.USERS.CREATE)
-    async create(@Body() body: { email: string, password: string }): Promise<User> {
-      const { email, password } = body;
-      return this.usersService.create(email, password);
-    }
+    // @Post(Paths.USERS.CREATE)
+    // async create(@Body() body: { email: string, password: string }): Promise<User> {
+    //   const { email, password } = body;
+    //   return this.usersService.create(email, password);
+    // }
   
     // Endpoint pour récupérer tous les utilisateurs
-    @Get(Paths.USERS.FIND_ALL)
+    @Get()
     async findAll(): Promise<User[]> {
       return this.usersService.findAll();
+      // console.log("pas d'erreur")
+      // return [{
+      //   id: 1,
+      //   created_at: new Date(),
+      //   updated_at: new Date(),
+      //   deleted_at: null,
+      //   first_name: "noe",
+      //   last_name: "fil",
+      //   alias: "daito",
+      //   email: "noe@example.com",
+      //   password: "pass",
+      //   role_id:1,
+      //   favorites:null,
+      //   ratings: null,
+      //   contents: null,
+      //   comments:null,
+      //   role:null,
+      //   comment_likes:null, 
+      //   content_likes: null,
+      //   blacklistedTokens: null
+      // }]
     }
   
     // Endpoint pour récupérer un utilisateur par ID ou EMAIL
