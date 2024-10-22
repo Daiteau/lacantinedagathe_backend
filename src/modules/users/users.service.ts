@@ -10,7 +10,10 @@ export class UsersService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
-  async create(email: string, password: string): Promise<User> {
+  async create(
+    email: string, 
+    password: string
+  ): Promise<User> {
     if(await this.usersRepository.findOne({ where: { email } })) {
       throw new ConflictException('Email already in use');
     }
