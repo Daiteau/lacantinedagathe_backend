@@ -11,13 +11,13 @@ export class UsersService {
   ) {}
 
   async create(
-    email: string, 
-    password: string
+    first_name: string,
+    last_name: string,
+    email: string,
+    password: string,
+    alias?: string,
   ): Promise<User> {
-    if(await this.usersRepository.findOne({ where: { email } })) {
-      throw new ConflictException('Email already in use');
-    }
-    const user = this.usersRepository.create({ email, password });
+    const user = this.usersRepository.create({first_name, last_name, email, password, alias });
     return this.usersRepository.save(user);
   }
 
@@ -26,12 +26,12 @@ export class UsersService {
   }
 
   async findOne(param: number | string): Promise<User> {
+    console.log("findOne execution")
     const whereCondition = typeof param === 'number' ? { id: param } : { email: param };
+    console.log("wherecondition :", whereCondition)
     const user = await this.usersRepository.findOne({ where: whereCondition });
-
-    if (!user) {
-        throw new NotFoundException(`User with param ${param} not found`);
-    }
+    console.log("findOne user: ",user)
+    
     return user;
   }
 

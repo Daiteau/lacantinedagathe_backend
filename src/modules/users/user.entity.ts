@@ -27,7 +27,7 @@ export class User extends BaseEntity {
     @Column()
     password: string;
 
-    @Column()
+    @Column({default: 2}) // Lorsqu'un utilisateur est créé il a le role user
     role_id: number;
 
     // Relations 
