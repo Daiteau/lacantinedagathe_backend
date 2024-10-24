@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { User } from './user.entity';
+import { Users } from '../users/users.dto'
 import { Paths } from '../../constants/paths';
 
 @Controller('users')
@@ -16,7 +17,7 @@ export class UsersController {
   
     // Endpoint pour récupérer tous les utilisateurs
     @Get()
-    async findAll(): Promise<User[]> {
+    async findAll(): Promise<Users[]> {
       return this.usersService.findAll();
       // console.log("pas d'erreur")
       // return [{

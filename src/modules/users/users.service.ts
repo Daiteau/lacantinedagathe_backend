@@ -2,6 +2,8 @@ import { ConflictException, Injectable, NotFoundException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 import { User } from './user.entity';
+import { Users } from './users.dto';
+
 
 @Injectable()
 export class UsersService {
@@ -21,8 +23,41 @@ export class UsersService {
     return this.usersRepository.save(user);
   }
 
-  async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(): Promise<Users[]> {
+    const users: User[] = await this.usersRepository.find({
+      select: [
+        'id', 
+        'created_at',
+        'deleted_at', 
+        'first_name', 
+        'last_name', 
+        'alias', 
+        'email', 
+        'role_id'
+      ], // Colonnes spécifiques
+    });
+  
+    // Tableau pour stocker les utilisateurs sans les mots de passe
+    const usersWithoutPasswords: Users[] = [];
+  
+    // Utilisation de `forEach` pour itérer sur le tableau des utilisateurs
+    users.forEach((user) => {
+      const newUser: Users = {
+        id: user.id,
+        created_at: user.created_at,
+        deleted_at: user.deleted_at,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        alias: user.alias, // Pas besoin de l'assigner conditionnellement
+        role_id: user.role_id
+      };
+  
+      // Ajouter chaque utilisateur dans le tableau
+      usersWithoutPasswords.push(newUser);
+    });
+  
+    return usersWithoutPasswords;
   }
 
   async findOne(param: number | string): Promise<User> {
