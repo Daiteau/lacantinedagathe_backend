@@ -15,7 +15,6 @@ import { PicturesModule } from './pictures/pictures.module';
 import { ContentTagsModule } from './content_tags/content_tags.module';
 import { TagsModule } from './tags/tags.module';
 import { AuthModule } from './auth/auth.module';
-import { JwtBlackListModule } from './jwt_black_list/jwt_black_list.module';
 
 @Module({
   imports: [
@@ -52,7 +51,6 @@ import { JwtBlackListModule } from './jwt_black_list/jwt_black_list.module';
     ContentTagsModule,
     TagsModule,
     AuthModule,
-    JwtBlackListModule,
   ],
   controllers: [], // Les contrôleurs si tu en as
   providers: [],   // Les providers si tu en as

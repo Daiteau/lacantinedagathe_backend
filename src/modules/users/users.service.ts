@@ -1,9 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { Users } from './users.dto';
-
 
 @Injectable()
 export class UsersService {
@@ -20,7 +19,12 @@ export class UsersService {
     alias?: string,
   ): Promise<User> {
     const user = this.usersRepository.create({first_name, last_name, email, password, alias });
-    return this.usersRepository.save(user);
+    const result = await this.usersRepository.save(user);
+    const userdata = {
+      id: result.id,
+      roleId: result.role_id
+    }
+    return result;
   }
 
   async findAll(): Promise<Users[]> {
@@ -28,46 +32,26 @@ export class UsersService {
       select: [
         'id', 
         'created_at',
-        'deleted_at', 
         'first_name', 
         'last_name', 
         'alias', 
         'email', 
         'role_id'
       ], // Colonnes spécifiques
-    });
-  
-    // Tableau pour stocker les utilisateurs sans les mots de passe
-    const usersWithoutPasswords: Users[] = [];
-  
-    // Utilisation de `forEach` pour itérer sur le tableau des utilisateurs
-    users.forEach((user) => {
-      const newUser: Users = {
-        id: user.id,
-        created_at: user.created_at,
-        deleted_at: user.deleted_at,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        alias: user.alias, // Pas besoin de l'assigner conditionnellement
-        role_id: user.role_id
-      };
-  
-      // Ajouter chaque utilisateur dans le tableau
-      usersWithoutPasswords.push(newUser);
-    });
-  
-    return usersWithoutPasswords;
+      where: { deleted_at: null }, // Utilisateurs non supprimés
+    }, );
+
+    return users;
   }
 
   async findOne(param: number | string): Promise<User> {
-    console.log("findOne execution")
     const whereCondition = typeof param === 'number' ? { id: param } : { email: param };
-    console.log("wherecondition :", whereCondition)
-    const user = await this.usersRepository.findOne({ where: whereCondition });
-    console.log("findOne user: ",user)
-    
+    const user = await this.usersRepository.findOne({ where: whereCondition, relations: ['role'] });
     return user;
+  }
+
+  async findOneById(id: number): Promise<User> {
+    return this.usersRepository.findOne({ where: { id } });
   }
 
   async findAllActive(): Promise<User[]> {
@@ -88,7 +72,11 @@ export class UsersService {
   }
 
   async findFullOne(id: number): Promise<User>{
-    const user = await this.usersRepository.findOne({ where: { id }, relations: ['role', 'favorites', 'ratings', 'contents', 'comments', 'commentLikes', 'contentLikes', 'blacklistedTokens'] });
+    const user = await this.usersRepository.findOne({ where: { id }, relations: ['role', 'favorites', 'ratings', 'contents', 'comments', 'commentLikes', 'contentLikes'] });
     return user;
+  }
+
+  async updateRefreshToken(userId: number, refreshToken: string): Promise<void> {
+    await this.usersRepository.update(userId, { refreshToken });
   }
 }
